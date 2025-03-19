@@ -1,0 +1,41 @@
+services:
+  mssqldb:
+    container_name: database
+    user: root
+    environment:
+      - ACCEPT_EULA=1
+      - MSSQL_SA_PASSWORD=KingPrice@3214
+    restart: unless-stopped
+    ports:
+      - "4001:1433"
+    volumes:
+      - mssql_storage:/var/opt/mssql/data
+
+  seq:
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_LICENSE=trial
+    restart: unless-stopped
+    ports:
+      - "4002:80"
+    volumes:
+      - seq_storage:/data
+
+  kingpricedemo.webapi:
+    container_name: webapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    depends_on:
+      - mssqldb
+      - seq
+    ports:
+      - "5001:8080"
+      - "6001:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

@@ -1,0 +1,55 @@
+name: Development Build, and Test
+
+on:
+  push:
+    branches:
+      - "develop"
+      - "master"
+    paths-ignore:
+      - README.md
+      - .gitignore
+  pull_request:
+    branches: 
+      - "develop"
+      - "master"
+    paths-ignore:
+      - README.md
+      - .gitignore
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  build:
+    env:
+      BUILD_CONFIG: 'Release'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+  
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore KingPriceDemo.sln
+
+    - name: Build
+      run: dotnet build KingPriceDemo.sln --no-restore --configuration $BUILD_CONFIG
+
+    - name: Test
+      run: dotnet test KingPriceDemo.sln --no-build --verbosity normal --configuration $BUILD_CONFIG --logger "trx;LogFileName=test-results.trx" || true
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: DotNET Tests
+        path: "**/test-results.trx"                            
+        reporter: dotnet-trx
+        fail-on-error: true

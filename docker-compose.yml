@@ -1,0 +1,16 @@
+services:
+  mssqldb:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+
+  seq:
+    image: datalust/seq
+
+  kingpricedemo.webapi:
+    image: ${DOCKER_REGISTRY-}kingpricedemowebapi
+    build:
+      context: .
+      dockerfile: Presentation/KingPriceDemo.WebApi/Dockerfile
+
+volumes:
+  mssql_storage:
+  seq_storage:
