@@ -31,6 +31,7 @@ services:
       - Serilog__WriteTo__0__Args__serverUrl=http://seq:80 
       - ScalarExplorer__Servers__0__Url=https://localhost:6001
       - ScalarExplorer__Servers__0__Description=Docker Hosted
+      - ConnectionStrings__DefaultConnection=Data Source=mssqldb;Initial Catalog=KingPriceDemo;User ID=sa;Password=KingPrice@3214;TrustServerCertificate=True;Encrypt=false;
     depends_on:
       - mssqldb
       - seq
