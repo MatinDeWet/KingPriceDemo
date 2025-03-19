@@ -1,4 +1,3 @@
-using FluentValidation;
 using KingPriceDemo.Application.Common.Behaviors;
 using KingPriceDemo.Application.Common.Exceptions.Handler;
 using Microsoft.AspNetCore.Builder;

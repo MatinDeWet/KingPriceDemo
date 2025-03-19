@@ -1,5 +1,9 @@
-﻿using KingPriceDemo.WebApi.Common.Transformers;
+﻿using KingPriceDemo.Application.Common.Constants;
+using KingPriceDemo.Domain.Entities;
+using KingPriceDemo.Persistence.Data.Context;
+using KingPriceDemo.WebApi.Common.Transformers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
@@ -132,6 +136,18 @@ namespace KingPriceDemo.WebApi
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddIdentityPrepration(this IServiceCollection services)
+        {
+            services
+                .AddIdentityCore<ApplicationUser>(options => { })
+                .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(AuthConstants.LoginProvider)
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<KingPriceContext>()
+                .AddDefaultTokenProviders();
 
             return services;
         }

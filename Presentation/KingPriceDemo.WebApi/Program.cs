@@ -16,7 +16,8 @@ public class Program
         builder.Services
             .AddPreparedControllers()
             .AddPreparedOpenApi()
-            .AddPreparedAuthentication(builder.Configuration);
+            .AddPreparedAuthentication(builder.Configuration)
+            .AddIdentityPrepration();
 
         builder.Services.AddMediatRBehavior(typeof(ApplicationDependencyInjection).Assembly);
 

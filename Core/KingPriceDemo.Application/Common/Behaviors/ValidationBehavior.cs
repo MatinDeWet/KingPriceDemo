@@ -1,5 +1,3 @@
-using FluentValidation;
-using KingPriceDemo.Application.Common.CQRS;
 using MediatR;
 
 namespace KingPriceDemo.Application.Common.Behaviors
