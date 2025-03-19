@@ -51,7 +51,10 @@ public class Program
 
         app.UsePreparedControllers();
 
-        ApplyDbMigrations(app);
+        if (builder.Environment.IsDevelopment())
+        {
+            ApplyDbMigrations(app);
+        }
 
         app.Run();
     }

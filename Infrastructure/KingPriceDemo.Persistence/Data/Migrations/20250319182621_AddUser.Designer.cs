@@ -4,6 +4,7 @@ using KingPriceDemo.Persistence.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KingPriceDemo.Persistence.Data.Migrations
 {
     [DbContext(typeof(KingPriceContext))]
-    partial class KingPriceContextModelSnapshot : ModelSnapshot
+    [Migration("20250319182621_AddUser")]
+    partial class AddUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,33 +123,6 @@ namespace KingPriceDemo.Persistence.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("KingPriceDemo.Domain.Entities.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTimeOffset>("DateTimeCreated")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("DateTimeDeleted")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Group", (string)null);
-                });
-
             modelBuilder.Entity("KingPriceDemo.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -181,26 +157,6 @@ namespace KingPriceDemo.Persistence.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("KingPriceDemo.Domain.Entities.UserGroup", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rights")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserGroup", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -317,25 +273,6 @@ namespace KingPriceDemo.Persistence.Data.Migrations
                     b.Navigation("IdentityInfo");
                 });
 
-            modelBuilder.Entity("KingPriceDemo.Domain.Entities.UserGroup", b =>
-                {
-                    b.HasOne("KingPriceDemo.Domain.Entities.Group", "Group")
-                        .WithMany("UserGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KingPriceDemo.Domain.Entities.User", "User")
-                        .WithMany("UserGroups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("KingPriceDemo.Domain.Entities.ApplicationRole", null)
@@ -391,16 +328,6 @@ namespace KingPriceDemo.Persistence.Data.Migrations
                 {
                     b.Navigation("User")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("KingPriceDemo.Domain.Entities.Group", b =>
-                {
-                    b.Navigation("UserGroups");
-                });
-
-            modelBuilder.Entity("KingPriceDemo.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserGroups");
                 });
 #pragma warning restore 612, 618
         }

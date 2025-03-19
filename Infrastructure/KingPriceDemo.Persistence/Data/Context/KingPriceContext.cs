@@ -1,6 +1,4 @@
-using KingPriceDemo.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
 namespace KingPriceDemo.Persistence.Data.Context
 {
@@ -9,5 +7,12 @@ namespace KingPriceDemo.Persistence.Data.Context
         public KingPriceContext() { }
 
         public KingPriceContext(DbContextOptions<KingPriceContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(typeof(KingPriceContext).Assembly);
+
+            base.OnModelCreating(builder);
+        }
     }
 }
