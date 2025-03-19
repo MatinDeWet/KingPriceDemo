@@ -28,6 +28,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      - Serilog__WriteTo__0__Args__serverUrl=http://seq:80 
+      - ScalarExplorer__Servers__0__Url=https://localhost:6001
+      - ScalarExplorer__Servers__0__Description=Docker Hosted
     depends_on:
       - mssqldb
       - seq
