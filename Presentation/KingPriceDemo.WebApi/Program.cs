@@ -31,6 +31,8 @@ public class Program
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     opt => opt.MigrationsAssembly(typeof(KingPriceContext).GetTypeInfo().Assembly.GetName().Name));
 
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
                 if (builder.Environment.IsDevelopment())
                 {
                     options.EnableSensitiveDataLogging();
