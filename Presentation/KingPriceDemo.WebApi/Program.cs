@@ -1,4 +1,5 @@
 using KingPriceDemo.Application;
+using KingPriceDemo.Persistence;
 using KingPriceDemo.Persistence.Data.Context;
 using KingPriceDemo.WebApi;
 using KingPriceDemo.WebApi.Common.Middlewares;
@@ -23,17 +24,21 @@ public class Program
 
         builder.Services.AddMediatRBehavior(typeof(ApplicationDependencyInjection).Assembly);
 
-        builder.Services.AddDbContext<KingPriceContext>(options =>
-        {
-            options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection"),
-                opt => opt.MigrationsAssembly(typeof(KingPriceContext).GetTypeInfo().Assembly.GetName().Name));
-
-            if (builder.Environment.IsDevelopment())
+        builder.Services
+            .AddDbContext<KingPriceContext>(options =>
             {
-                options.EnableSensitiveDataLogging();
-            }
-        });
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    opt => opt.MigrationsAssembly(typeof(KingPriceContext).GetTypeInfo().Assembly.GetName().Name));
+
+                if (builder.Environment.IsDevelopment())
+                {
+                    options.EnableSensitiveDataLogging();
+                }
+            })
+            .AddDataSecurity()
+            .AddRepos(typeof(PersistenceDependencyInjection).Assembly)
+            .AddRepoLocks(typeof(PersistenceDependencyInjection).Assembly);
 
         var app = builder.Build();
 

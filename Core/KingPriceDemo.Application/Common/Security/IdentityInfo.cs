@@ -1,3 +1,4 @@
+using KingPriceDemo.Domain.Enums;
 using System.Security.Claims;
 
 namespace KingPriceDemo.Application.Common.Security
@@ -9,6 +10,22 @@ namespace KingPriceDemo.Application.Common.Security
         public IdentityInfo(IInfoSetter infoSetter)
         {
             _infoSetter = infoSetter;
+        }
+
+        public bool HasRole(ApplicationRoleEnum role)
+        {
+            var roles = _infoSetter
+                .Where(x => x.Type == ClaimTypes.Role)
+                .Select(x => x.Value)
+                .ToList();
+
+            ApplicationRoleEnum combinedRoles = ApplicationRoleEnum.None;
+
+            foreach (var roleString in roles)
+                if (Enum.TryParse(roleString, true, out ApplicationRoleEnum parsedRole))
+                    combinedRoles |= parsedRole;
+
+            return combinedRoles.HasFlag(role);
         }
 
         public int GetIdentityId()
