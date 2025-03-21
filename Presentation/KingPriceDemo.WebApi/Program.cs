@@ -1,6 +1,7 @@
 using KingPriceDemo.Application;
 using KingPriceDemo.Persistence.Data.Context;
 using KingPriceDemo.WebApi;
+using KingPriceDemo.WebApi.Common.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -17,6 +18,7 @@ public class Program
             .AddPreparedControllers()
             .AddPreparedOpenApi()
             .AddPreparedAuthentication(builder.Configuration)
+            .AddDataIdentity()
             .AddIdentityPrepration();
 
         builder.Services.AddMediatRBehavior(typeof(ApplicationDependencyInjection).Assembly);
@@ -50,6 +52,8 @@ public class Program
         app.UseAuthenticationAndAuthorization();
 
         app.UsePreparedControllers();
+
+        app.UseMiddleware<UserIdentifierMiddleware>();
 
         if (builder.Environment.IsDevelopment())
         {

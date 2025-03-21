@@ -1,5 +1,6 @@
 using KingPriceDemo.Application.Common.Behaviors;
 using KingPriceDemo.Application.Common.Exceptions.Handler;
+using KingPriceDemo.Application.Common.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +49,14 @@ namespace KingPriceDemo.Application
             app.UseExceptionHandler(options => { });
 
             return app;
+        }
+
+        public static IServiceCollection AddDataIdentity(this IServiceCollection services)
+        {
+            services.AddScoped<IIdentityInfo, IdentityInfo>();
+            services.AddScoped<IInfoSetter, InfoSetter>();
+
+            return services;
         }
     }
 }
