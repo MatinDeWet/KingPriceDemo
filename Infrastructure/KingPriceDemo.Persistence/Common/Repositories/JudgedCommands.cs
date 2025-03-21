@@ -104,7 +104,11 @@ namespace KingPriceDemo.Persistence.Common.Repositories
             var result = true;
 
             if (_info.HasRole(ApplicationRoleEnum.SuperAdmin))
+            {
+                _requirements.Reset();
+
                 return result;
+            }
 
             if (_protection.FirstOrDefault(x => x.IsMatch(typeof(T))) is IProtected<T> entityLock)
                 result = await entityLock.HasAccess(obj, _info.GetIdentityId(), operation, _requirements.GetRequirment(), cancellationToken);
