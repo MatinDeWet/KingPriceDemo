@@ -1,6 +1,3 @@
-using KingPriceDemo.Domain.Enums;
-using KingPriceDemo.Persistence.Common.Repositories.Enums;
-
 namespace KingPriceDemo.Persistence.Common.Repositories
 {
     public abstract class Lock<T> : IProtected<T> where T : class

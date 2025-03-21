@@ -3,9 +3,8 @@ using KingPriceDemo.Domain.Enums;
 using KingPriceDemo.Persistence.Common.Repositories;
 using KingPriceDemo.Persistence.Common.Repositories.Enums;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
-namespace KingPriceDemo.Persistence.UnitTests.Common.Repositories
+namespace KingPriceDemo.Persistence.UnitTests.Tests.Common.Repositories
 {
     public class JudgedCommandsDummyEntity { }
 

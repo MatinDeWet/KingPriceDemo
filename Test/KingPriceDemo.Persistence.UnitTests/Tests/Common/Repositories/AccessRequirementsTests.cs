@@ -1,8 +1,7 @@
-using FluentAssertions;
 using KingPriceDemo.Domain.Enums;
 using KingPriceDemo.Persistence.Common.Repositories;
 
-namespace KingPriceDemo.Persistence.UnitTests.Common.Repositories
+namespace KingPriceDemo.Persistence.UnitTests.Tests.Common.Repositories
 {
     public class AccessRequirementsTests
     {

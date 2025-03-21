@@ -1,5 +1,3 @@
-using KingPriceDemo.Domain.Enums;
-
 namespace KingPriceDemo.Persistence.Common.Repositories
 {
     public class AccessRequirements

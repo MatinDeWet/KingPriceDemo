@@ -1,6 +1,3 @@
-using KingPriceDemo.Domain.Enums;
-using KingPriceDemo.Persistence.Common.Repositories.Enums;
-
 namespace KingPriceDemo.Persistence.Common.Repositories
 {
     public interface IProtected

@@ -1,7 +1,5 @@
 using KingPriceDemo.Application.Common.Repositories;
 using KingPriceDemo.Application.Common.Security;
-using KingPriceDemo.Domain.Enums;
-using KingPriceDemo.Persistence.Common.Repositories.Enums;
 
 namespace KingPriceDemo.Persistence.Common.Repositories
 {

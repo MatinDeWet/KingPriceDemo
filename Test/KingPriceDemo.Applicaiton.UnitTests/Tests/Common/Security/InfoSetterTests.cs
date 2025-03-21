@@ -1,9 +1,8 @@
 using KingPriceDemo.Application.Common.Security;
-using KingPriceDemo.Domain.Enums;
 using Moq;
 using System.Security.Claims;
 
-namespace KingPriceDemo.UnitTests.Tests.Application.Common.Security
+namespace KingPriceDemo.Applicaiton.UnitTests.Tests.Common.Security
 {
     public class InfoSetterTests
     {

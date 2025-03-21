@@ -1,5 +1,4 @@
 using KingPriceDemo.Application.Common.Repositories;
-using KingPriceDemo.Persistence.Common.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
