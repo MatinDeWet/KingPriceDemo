@@ -16,7 +16,7 @@ namespace KingPriceDemo.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register(AuthRegisterRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register([FromBody] AuthRegisterRequest request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);
 
@@ -36,7 +36,7 @@ namespace KingPriceDemo.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(AuthLoginResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Login(AuthLoginRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login([FromBody] AuthLoginRequest request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);
 
@@ -51,7 +51,7 @@ namespace KingPriceDemo.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(VerifyRefreshAuthTokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> RefreshToken(VerifyRefreshAuthTokenRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> RefreshToken([FromBody] VerifyRefreshAuthTokenRequest request, CancellationToken cancellationToken)
         {
             var result = await sender.Send(request, cancellationToken);
 

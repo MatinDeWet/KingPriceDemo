@@ -143,7 +143,14 @@ namespace KingPriceDemo.WebApi
         public static IServiceCollection AddIdentityPrepration(this IServiceCollection services)
         {
             services
-                .AddIdentityCore<ApplicationUser>(options => { })
+                .AddIdentityCore<ApplicationUser>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireNonAlphanumeric = true;
+                })
                 .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(AuthConstants.LoginProvider)
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<KingPriceContext>()

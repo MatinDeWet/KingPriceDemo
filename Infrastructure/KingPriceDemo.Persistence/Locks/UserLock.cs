@@ -17,16 +17,23 @@ namespace KingPriceDemo.Persistence.Locks
 
         public override IQueryable<User> Secured(int identityId, GroupRightsEnum requirement)
         {
-            var query = from u in context.Set<User>()
-                        let groupIds = from ug in context.Set<UserGroup>()
-                                       where ug.UserId == identityId
-                                         && ug.Rights.HasFlag(requirement)
-                                       select ug.GroupId
-                        where u.Id == identityId ||
-                              u.UserGroups.Any(ug => groupIds.Contains(ug.GroupId))
-                        select u;
+            var allowedGroupIds = from ug in context.Set<UserGroup>()
+                                  where ug.UserId == identityId
+                                     && ug.Rights.HasFlag(requirement)
+                                  select ug.GroupId;
 
-            return query;
+            var selfQuery = from u in context.Set<User>()
+                            where u.Id == identityId
+                            select u;
+
+            var groupUsersQuery = from u in context.Set<User>()
+                                  join ug in context.Set<UserGroup>() on u.Id equals ug.UserId
+                                  where allowedGroupIds.Contains(ug.GroupId)
+                                  select u;
+
+            var securedUsersQuery = selfQuery.Union(groupUsersQuery);
+
+            return securedUsersQuery;
         }
     }
 }

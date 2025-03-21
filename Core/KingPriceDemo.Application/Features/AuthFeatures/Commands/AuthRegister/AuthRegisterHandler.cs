@@ -12,7 +12,11 @@ namespace KingPriceDemo.Application.Features.AuthFeatures.Commands.AuthRegister
             _user = new ApplicationUser
             {
                 Email = request.Email,
-                UserName = request.Email
+                UserName = request.Email,
+                User = new User
+                {
+                    Email = request.Email
+                }
             };
 
             var result = await userManager.CreateAsync(_user, request.Password);

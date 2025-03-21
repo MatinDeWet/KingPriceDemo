@@ -5,12 +5,12 @@ namespace KingPriceDemo.Application.Features.AuthFeatures.Commands.AuthRegister
         public AuthRegisterRequestValidator()
         {
             RuleFor(x => x.Email)
-                .SetValidator(new StringInputValidator())
+                .StringInput(256)
                 .EmailAddress()
                 .WithMessage("{PropertyName} is not valid");
 
             RuleFor(x => x.Password)
-                .SetValidator(new StringInputValidator());
+                .StringInput(512);
 
             RuleFor(x => x.ConfirmPassword)
                 .Equal(x => x.Password)
