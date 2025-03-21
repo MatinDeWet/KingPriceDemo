@@ -12,6 +12,18 @@ namespace KingPriceDemo.Application.Common.Security
             _infoSetter = infoSetter;
         }
 
+        public int GetIdentityId()
+        {
+            var a = _infoSetter.ToList();
+
+            var uid = GetValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(uid, out int result))
+                return 0;
+
+            return result;
+        }
+
         public bool HasRole(ApplicationRoleEnum role)
         {
             var roles = _infoSetter
@@ -26,18 +38,6 @@ namespace KingPriceDemo.Application.Common.Security
                     combinedRoles |= parsedRole;
 
             return combinedRoles.HasFlag(role);
-        }
-
-        public int GetIdentityId()
-        {
-            var a = _infoSetter.ToList();
-
-            var uid = GetValue(ClaimTypes.NameIdentifier);
-
-            if (!int.TryParse(uid, out int result))
-                return 0;
-
-            return result;
         }
 
         public string GetValue(string name)
