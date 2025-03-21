@@ -20,7 +20,7 @@ namespace KingPriceDemo.Persistence.Locks
             var query = from u in context.Set<User>()
                         let groupIds = from ug in context.Set<UserGroup>()
                                        where ug.UserId == identityId
-                                         && ug.Rights == requirement
+                                         && ug.Rights.HasFlag(requirement)
                                        select ug.GroupId
                         where u.Id == identityId ||
                               u.UserGroups.Any(ug => groupIds.Contains(ug.GroupId))

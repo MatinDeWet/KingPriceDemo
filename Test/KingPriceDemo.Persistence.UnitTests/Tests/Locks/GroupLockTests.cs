@@ -11,12 +11,12 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
     public class GroupLockTests
     {
         private readonly Mock<KingPriceContext> _mockContext;
-        private readonly GroupLock _userLock;
+        private readonly GroupLock _lock;
 
         public GroupLockTests()
         {
             _mockContext = new Mock<KingPriceContext>();
-            _userLock = new GroupLock(_mockContext.Object);
+            _lock = new GroupLock(_mockContext.Object);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var group = new Group { UserGroups = new List<UserGroup> { new UserGroup { UserId = 0 } } };
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeFalse();
@@ -41,7 +41,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var group = new Group { UserGroups = new List<UserGroup> { new UserGroup { UserId = 1 } } };
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeTrue();
@@ -55,7 +55,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var group = new Group { UserGroups = new List<UserGroup> { new UserGroup { UserId = 2 } } };
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Insert, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeFalse();
@@ -69,7 +69,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var group = new Group { Id = 0 };
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeFalse();
@@ -82,7 +82,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var identityId = 1;
             var group = new Group { Id = 1 };
 
-            var groupList = new List<UserGroup> 
+            var groupList = new List<UserGroup>
             {
                 new UserGroup { UserId = identityId, GroupId = 1, Rights = GroupRightsEnum.ReadWrite }
             };
@@ -90,7 +90,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             _mockContext.Setup(x => x.Set<UserGroup>()).Returns(groupList.AsQueryable().BuildMockDbSet().Object);
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeFalse();
@@ -110,7 +110,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             _mockContext.Setup(x => x.Set<UserGroup>()).Returns(groupList.AsQueryable().BuildMockDbSet().Object);
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeTrue();
@@ -130,7 +130,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             _mockContext.Setup(x => x.Set<UserGroup>()).Returns(groupList.AsQueryable().BuildMockDbSet().Object);
 
             // Act
-            var result = await _userLock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
+            var result = await _lock.HasAccess(group, identityId, RepositoryOperationEnum.Update, GroupRightsEnum.Owner, default);
 
             // Assert
             result.Should().BeFalse();
@@ -158,7 +158,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             _mockContext.Setup(x => x.Set<UserGroup>()).Returns(userGroupList.AsQueryable().BuildMockDbSet().Object);
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().BeEquivalentTo(groupList.Where(x => x.Id == 1));

@@ -9,12 +9,12 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
     public class UserLockTests
     {
         private readonly Mock<KingPriceContext> _mockContext;
-        private readonly UserLock _userLock;
+        private readonly UserLock _lock;
 
         public UserLockTests()
         {
             _mockContext = new Mock<KingPriceContext>();
-            _userLock = new UserLock(_mockContext.Object);
+            _lock = new UserLock(_mockContext.Object);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var requirement = GroupRightsEnum.Read;
 
             // Act
-            var result = await _userLock.HasAccess(user, identityId, operation, requirement, default);
+            var result = await _lock.HasAccess(user, identityId, operation, requirement, default);
 
             // Assert
             result.Should().BeTrue();
@@ -43,7 +43,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var requirement = GroupRightsEnum.Read;
 
             // Act
-            var result = await _userLock.HasAccess(user, identityId, operation, requirement, default);
+            var result = await _lock.HasAccess(user, identityId, operation, requirement, default);
 
             // Assert
             result.Should().BeFalse();
@@ -59,7 +59,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var requirement = GroupRightsEnum.Read;
 
             // Act
-            var result = await _userLock.HasAccess(user, identityId, operation, requirement, default);
+            var result = await _lock.HasAccess(user, identityId, operation, requirement, default);
 
             // Assert
             result.Should().BeFalse();
@@ -75,7 +75,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             var requirement = GroupRightsEnum.Read;
 
             // Act
-            var result = await _userLock.HasAccess(user, identityId, operation, requirement, default);
+            var result = await _lock.HasAccess(user, identityId, operation, requirement, default);
 
             // Assert
             result.Should().BeTrue();
@@ -113,7 +113,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             );
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().HaveCount(1);
@@ -166,7 +166,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             );
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().HaveCount(1);
@@ -238,7 +238,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             );
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().HaveCount(2);
@@ -310,7 +310,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             );
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().HaveCount(1);
@@ -382,7 +382,7 @@ namespace KingPriceDemo.Persistence.UnitTests.Tests.Locks
             );
 
             // Act
-            var result = _userLock.Secured(identityId, requirement);
+            var result = _lock.Secured(identityId, requirement);
 
             // Assert
             result.Should().HaveCount(1);

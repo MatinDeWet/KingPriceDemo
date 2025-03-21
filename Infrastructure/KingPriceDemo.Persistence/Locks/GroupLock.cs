@@ -23,7 +23,7 @@ namespace KingPriceDemo.Persistence.Locks
             var query = from ug in context.Set<UserGroup>()
                         where ug.UserId == identityId
                             && ug.GroupId == groupId
-                            && ug.Rights == GroupRightsEnum.Owner
+                            && ug.Rights.HasFlag(GroupRightsEnum.Owner)
                         select ug;
 
             return await query.AnyAsync(cancellationToken);
@@ -34,7 +34,7 @@ namespace KingPriceDemo.Persistence.Locks
             var query = from g in context.Set<Group>()
                         join ug in context.Set<UserGroup>() on g.Id equals ug.GroupId
                         where ug.UserId == identityId
-                            && ug.Rights == requirement
+                            && ug.Rights.HasFlag(requirement)
                         select g;
 
             return query;
