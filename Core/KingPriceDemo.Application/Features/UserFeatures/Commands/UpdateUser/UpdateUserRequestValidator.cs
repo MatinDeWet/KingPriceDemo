@@ -1,8 +1,8 @@
 namespace KingPriceDemo.Application.Features.UserFeatures.Commands.UpdateUser
 {
-    public class UpdateUserValidator : AbstractValidator<UpdateUserRequest>
+    public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
     {
-        public UpdateUserValidator()
+        public UpdateUserRequestValidator()
         {
             RuleFor(x => x.FullName)
                 .StringInput(128, false);
