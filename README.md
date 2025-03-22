@@ -1,5 +1,10 @@
 <h1>King Price Demo</h1>
 
+<h2>Description</h2>
+<p> This demo application serves as a prototype for interview scenarios. 
+It is a straightforward web-based platform that enables the creation and management of users and groups, 
+showcasing simple administrative functionalities and basic CRUD operations. </p>
+
 <h2>Service Ports</h2>
 
 <table>
