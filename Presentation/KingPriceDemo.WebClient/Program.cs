@@ -15,12 +15,10 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication("Cookies").AddCookie();
 
+
 builder.Services.AddHttpClient<KingPriceHttpClient>(options =>
 {
     options.BaseAddress = new Uri(builder.Configuration["ApiResources:KingPriceApi:BaseUrl"]!);
-}).AddHttpMessageHandler(sp =>
-{
-    return new TokenValidationService(sp.GetRequiredService<ILocalStorageService>());
 });
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -30,7 +28,7 @@ builder.Services.AddScoped<AuthenticationStateProvider>(options =>
     options.GetRequiredService<ApiAuthenticationStateProvider>()
 );
 
-builder.Services.AddTransient<TokenValidationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddBlazoredLocalStorage();

@@ -12,5 +12,7 @@
         await authService.Logout();
 
         manager.NavigateTo("/");
+
+        await InvokeAsync(StateHasChanged);
     }
 }

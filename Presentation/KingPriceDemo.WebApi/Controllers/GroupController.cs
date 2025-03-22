@@ -62,35 +62,35 @@ namespace KingPriceDemo.WebApi.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteGroup([FromQuery] int id)
         {
             await sender.Send(new DeleteGroupRequest(id));
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> JoinGroupWithToken([FromBody] JoinGroupWithTokenRequest request)
         {
             await sender.Send(request);
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> LeaveGroup([FromQuery] int id)
         {
             await sender.Send(new LeaveGroupRequest(id));
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> RefreshGroupInviteToken([FromQuery] int id)
         {
             await sender.Send(new RefreshGroupInviteTokenRequest(id));
-            return NoContent();
+            return Ok();
         }
     }
 }

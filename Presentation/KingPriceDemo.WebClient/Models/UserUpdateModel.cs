@@ -1,6 +1,6 @@
 ﻿namespace KingPriceDemo.WebClient.Models
 {
-    public class UserUpdateModel
+    public class UserModel
     {
         public int Id { get; set; }
 

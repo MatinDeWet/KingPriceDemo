@@ -26,7 +26,7 @@ namespace KingPriceDemo.WebApi.Controllers
         [ProducesResponseType(typeof(PageableResponse<SearchUserResponse>), StatusCodes.Status200OK)]
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchUser([FromBody] SearchUserRequest request)
         {
             var response = await sender.Send(request);
@@ -34,12 +34,12 @@ namespace KingPriceDemo.WebApi.Controllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteUser()
         {
             await sender.Send(new AuthDeleteUserRequest());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace KingPriceDemo.WebApi.Controllers
         {
             await sender.Send(request);
 
-            return NoContent();
+            return Ok();
         }
     }
 }

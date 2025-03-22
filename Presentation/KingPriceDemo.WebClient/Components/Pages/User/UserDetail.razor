@@ -1,8 +1,6 @@
 ﻿@page "/user/home"
 
-@using KingPriceDemo.WebClient.Services.Contracts
-
-@inject IAuthenticationService authService
+@inject IUserService userService
 <h3>UserDetail</h3>
 
 <div class="card-body">
@@ -27,13 +25,15 @@
 
 
             <input type="submit" value="Submit" class="btn btn-primary" />
+
+            <input type="button" value="Delete" class="btn btn-danger" @onclick="DeleteUser" />
         </div>
     </EditForm>
 </div>
 
 @code {
     [SupplyParameterFromForm]
-    UserUpdateModel Model { get; set; } = new UserUpdateModel();
+    UserModel Model { get; set; } = new UserModel();
 }
 
 @code{
@@ -41,17 +41,7 @@
     {
         if (firstRender)
         {
-            var userId = await authService.GetIdentityId();
-
-            var user = await KingPriceApiClient.ApiUserGetUserByIdAsync(userId);
-
-            Model = new UserUpdateModel
-            {
-                FullName = user.FullName,
-                Surname = user.Surname,
-                Email = user.Email,
-                CellphoneNumber = user.CellphoneNumber
-            };
+            Model = await userService.GetLoggedInUser();
 
             await InvokeAsync(StateHasChanged);
         }
@@ -61,28 +51,17 @@
 @code{
     private async Task HandleValidSubmit()
     {
-        var updateDto = new UpdateUserRequest
-        {
-            FullName = Model.FullName,
-            Surname = Model.Surname,
-            Email = Model.Email,
-            CellphoneNumber = Model.CellphoneNumber
-        };
+        await userService.UpdateUser(Model);
 
-        await KingPriceApiClient.ApiUserUpdateUserAsync(updateDto);
-
-        var userId = await authService.GetIdentityId();
-
-        var user = await KingPriceApiClient.ApiUserGetUserByIdAsync(userId);
-
-        Model = new UserUpdateModel
-        {
-            FullName = user.FullName,
-            Surname = user.Surname,
-            Email = user.Email,
-            CellphoneNumber = user.CellphoneNumber
-        };
+        Model = await userService.GetLoggedInUser();
 
         await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task DeleteUser()
+    {
+        await userService.DeleteUser();
+
+        manager.NavigateTo("/auth/logout");
     }
 }

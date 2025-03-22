@@ -68,8 +68,6 @@ namespace KingPriceDemo.WebClient.Providers
             var tokenContent = _jwtSecurityTokenHandler.ReadJwtToken(savedToken);
             var claims = tokenContent.Claims.ToList();
 
-            claims.Add(new Claim(LocalStorageConstants.Token, savedToken ?? string.Empty));
-
             return claims;
         }
     }

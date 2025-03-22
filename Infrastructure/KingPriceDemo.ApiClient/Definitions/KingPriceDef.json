@@ -569,8 +569,8 @@
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -624,8 +624,8 @@
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -669,8 +669,8 @@
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -714,8 +714,8 @@
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -832,27 +832,7 @@
             }
           },
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageableResponseOfSearchUserResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageableResponseOfSearchUserResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageableResponseOfSearchUserResponse"
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "No Content"
+            "description": "OK"
           }
         }
       }
@@ -886,8 +866,8 @@
               }
             }
           },
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1156,39 +1136,6 @@
           }
         }
       },
-      "PageableResponseOfSearchUserResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SearchUserResponse"
-            }
-          },
-          "totalRecords": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "orderBy": {
-            "type": "string"
-          },
-          "orderDirection": {
-            "$ref": "#/components/schemas/OrderDirectionEnum"
-          }
-        }
-      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -1266,30 +1213,6 @@
           },
           "orderDirection": {
             "$ref": "#/components/schemas/OrderDirectionEnum"
-          }
-        }
-      },
-      "SearchUserResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fullName": {
-            "type": "string",
-            "nullable": true
-          },
-          "surname": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string"
-          },
-          "cellphoneNumber": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
