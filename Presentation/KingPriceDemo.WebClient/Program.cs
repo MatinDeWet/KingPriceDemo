@@ -20,7 +20,7 @@ builder.Services.AddHttpClient<KingPriceHttpClient>(options =>
     options.BaseAddress = new Uri(builder.Configuration["ApiResources:KingPriceApi:BaseUrl"]!);
 }).AddHttpMessageHandler(sp =>
 {
-    return new TokenValidationService(sp.GetRequiredService<IHttpContextAccessor>());
+    return new TokenValidationService(sp.GetRequiredService<ILocalStorageService>());
 });
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
