@@ -1,0 +1,16 @@
+﻿@page "/auth/logout"
+
+@using KingPriceDemo.WebClient.Services.Contracts
+
+@inject IAuthenticationService authService
+
+<h3>Logout</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await authService.Logout();
+
+        manager.NavigateTo("/");
+    }
+}

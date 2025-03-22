@@ -1,0 +1,88 @@
+﻿@page "/user/home"
+
+@using KingPriceDemo.WebClient.Services.Contracts
+
+@inject IAuthenticationService authService
+<h3>UserDetail</h3>
+
+<div class="card-body">
+    <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="UserUpdatte">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="FullName">FullName</label>
+            <InputText class="form-control" @bind-Value="Model.FullName" />
+            <ValidationMessage For="@(() => Model.FullName)" />
+
+            <label for="Surname">Surname</label>
+            <InputText class="form-control" @bind-Value="Model.Surname" />
+            <ValidationMessage For="@(() => Model.Surname)" />
+
+            <label for="Email">Email</label>
+            <InputText class="form-control" @bind-Value="Model.Email" />
+            <ValidationMessage For="@(() => Model.Email)" />
+
+            <label for="CellphoneNumber">Cellphone Number</label>
+            <InputText class="form-control" @bind-Value="Model.CellphoneNumber" />
+            <ValidationMessage For="@(() => Model.CellphoneNumber)" />
+
+
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    UserUpdateModel Model { get; set; } = new UserUpdateModel();
+}
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var userId = await authService.GetIdentityId();
+
+            var user = await KingPriceApiClient.ApiUserGetUserByIdAsync(userId);
+
+            Model = new UserUpdateModel
+            {
+                FullName = user.FullName,
+                Surname = user.Surname,
+                Email = user.Email,
+                CellphoneNumber = user.CellphoneNumber
+            };
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
+
+@code{
+    private async Task HandleValidSubmit()
+    {
+        var updateDto = new UpdateUserRequest
+        {
+            FullName = Model.FullName,
+            Surname = Model.Surname,
+            Email = Model.Email,
+            CellphoneNumber = Model.CellphoneNumber
+        };
+
+        await KingPriceApiClient.ApiUserUpdateUserAsync(updateDto);
+
+        var userId = await authService.GetIdentityId();
+
+        var user = await KingPriceApiClient.ApiUserGetUserByIdAsync(userId);
+
+        Model = new UserUpdateModel
+        {
+            FullName = user.FullName,
+            Surname = user.Surname,
+            Email = user.Email,
+            CellphoneNumber = user.CellphoneNumber
+        };
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

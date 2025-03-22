@@ -1,5 +1,6 @@
 ﻿using KingPriceDemo.Application.Common.Pagination.Models;
 using KingPriceDemo.Application.Features.AuthFeatures.Commands.AuthDeleteUser;
+using KingPriceDemo.Application.Features.UserFeatures.Commands.UpdateUser;
 using KingPriceDemo.Application.Features.UserFeatures.Queries.GetUserById;
 using KingPriceDemo.Application.Features.UserFeatures.Queries.SearchUser;
 using MediatR;
@@ -37,6 +38,15 @@ namespace KingPriceDemo.WebApi.Controllers
         public async Task<IActionResult> DeleteUser()
         {
             await sender.Send(new AuthDeleteUserRequest());
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
+        {
+            await sender.Send(request);
 
             return NoContent();
         }

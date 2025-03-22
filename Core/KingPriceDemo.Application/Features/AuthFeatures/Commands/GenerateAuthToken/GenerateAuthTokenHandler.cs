@@ -24,6 +24,7 @@ namespace KingPriceDemo.Application.Features.AuthFeatures.Commands.GenerateAuthT
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, request.user.Id.ToString()),
+                new Claim(ClaimTypes.Name, request.user.UserName!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }
             .Union(roleClaims)

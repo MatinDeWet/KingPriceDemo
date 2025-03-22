@@ -21,7 +21,7 @@
 		<td>4002</td>
 		<td>80</td>
 	</tr>
-		<tr>
+	<tr>
 		<td>King Price Web API</td>
 		<td>7001</td>
 		<td>
@@ -47,6 +47,16 @@
 					<td>8081</td>
 				</tr>
 			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>King Price Web Client</td>
+		<td>7002</td>
+		<td>
+			-
+		</td>
+		<td>
+			-
 		</td>
 	</tr>
 </table>

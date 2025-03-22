@@ -1,0 +1,45 @@
+﻿@page "/auth/register"
+
+<h3>Register</h3>
+
+<div class="card-body">
+    <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="RegisterUser">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <InputText class="form-control" @bind-Value="Model.Email" />
+            <ValidationMessage For="@(() => Model.Email)" />
+
+            <label for="Password">Password</label>
+            <InputText type="password" class="form-control" @bind-Value="Model.Password" />
+            <ValidationMessage For="@(() => Model.Password)" />
+
+            <label for="ConfirmPassword">Confirm Password</label>
+            <InputText type="password" class="form-control" @bind-Value="Model.ConfirmPassword" />
+            <ValidationMessage For="@(() => Model.ConfirmPassword)" />
+
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    RegistrationModel Model { get; set; } = new RegistrationModel();
+}
+
+@code{
+    private async Task HandleValidSubmit()
+    {
+        var dto = new AuthRegisterRequest
+            {
+                Email = Model.Email,
+                Password = Model.Password,
+                ConfirmPassword = Model.ConfirmPassword
+            };
+
+        await KingPriceApiClient.ApiAuthRegisterAsync(dto);
+
+        manager.NavigateTo("/auth/login");
+    }
+}
