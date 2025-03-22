@@ -6,8 +6,8 @@ namespace KingPriceDemo.Domain.Entities
     {
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
+        public string InviteToken { get; set; } = null!;
 
-        public virtual ICollection<GroupInvite> Invites { get; set; } = new List<GroupInvite>();
+        public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
     }
 }

@@ -4,6 +4,7 @@ using KingPriceDemo.Persistence.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KingPriceDemo.Persistence.Data.Migrations
 {
     [DbContext(typeof(KingPriceContext))]
-    partial class KingPriceContextModelSnapshot : ModelSnapshot
+    [Migration("20250322061303_RemoveRoupInvite")]
+    partial class RemoveRoupInvite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,11 +136,6 @@ namespace KingPriceDemo.Persistence.Data.Migrations
 
                     b.Property<DateTimeOffset?>("DateTimeDeleted")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InviteToken")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

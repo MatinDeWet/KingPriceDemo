@@ -12,6 +12,10 @@ namespace KingPriceDemo.Persistence.Data.Configuration
                 .IsRequired()
                 .HasMaxLength(64);
 
+            entity.Property(x => x.InviteToken)
+                .IsRequired()
+                .HasMaxLength(20);
+
             OnConfigurePartial(entity);
         }
         partial void OnConfigurePartial(EntityTypeBuilder<Group> entity);

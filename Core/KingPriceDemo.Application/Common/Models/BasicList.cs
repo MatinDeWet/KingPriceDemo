@@ -1,0 +1,8 @@
+namespace KingPriceDemo.Application.Common.Models
+{
+    public record BasicList
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+}

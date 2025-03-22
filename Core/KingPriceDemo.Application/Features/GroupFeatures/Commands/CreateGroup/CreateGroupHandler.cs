@@ -1,3 +1,4 @@
+using KingPriceDemo.Application.Common.Extensions;
 using KingPriceDemo.Application.Common.Security;
 using KingPriceDemo.Application.Repositories.CommandRepositories;
 using KingPriceDemo.Domain.Enums;
@@ -12,6 +13,7 @@ namespace KingPriceDemo.Application.Features.GroupFeatures.Commands.CreateGroup
             var group = new Group
             {
                 Name = request.Name,
+                InviteToken = StringTools.GenerateRandomString(20),
                 UserGroups = new List<UserGroup>
                 {
                     new UserGroup

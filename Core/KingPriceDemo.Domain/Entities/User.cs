@@ -15,7 +15,5 @@ namespace KingPriceDemo.Domain.Entities
         public string? CellphoneNumber { get; set; }
 
         public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
-
-        public virtual ICollection<GroupInvite> AcceptedInvites { get; set; } = new List<GroupInvite>();
     }
 }

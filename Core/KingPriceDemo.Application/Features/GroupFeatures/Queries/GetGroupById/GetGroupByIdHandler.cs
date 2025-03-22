@@ -1,9 +1,11 @@
+using KingPriceDemo.Application.Common.Security;
 using KingPriceDemo.Application.Repositories.QueryRepositories;
+using KingPriceDemo.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace KingPriceDemo.Application.Features.GroupFeatures.Queries.GetGroupById
 {
-    public class GetGroupByIdHandler(IGroupQueryRepository repo)
+    public class GetGroupByIdHandler(IIdentityInfo identityInfo, IGroupQueryRepository repo)
         : IQueryHandler<GetGroupByIdRequest, GetGroupByIdResponse>
     {
         public async Task<GetGroupByIdResponse> Handle(GetGroupByIdRequest request, CancellationToken cancellationToken)
@@ -14,13 +16,16 @@ namespace KingPriceDemo.Application.Features.GroupFeatures.Queries.GetGroupById
                 {
                     Id = g.Id,
                     Name = g.Name,
+                    InviteToken = g.UserGroups.Any(ug => ug.UserId == identityInfo.GetIdentityId() && ug.Rights == GroupRightsEnum.Owner) ? g.InviteToken : string.Empty,
                     Users = g.UserGroups.Select(u => new GroupUsers
                     {
                         Id = u.User.Id,
+                        Email = u.User.Email,
+                        Rights = u.Rights,
                         FullName = u.User.FullName,
                         Surname = u.User.Surname
                     })
-                        .ToList()
+                    .ToList()
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 

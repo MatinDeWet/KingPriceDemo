@@ -23,6 +23,12 @@ namespace KingPriceDemo.Application.Common.Exceptions.Handler
                     exception.GetType().Name,
                     context.Response.StatusCode = StatusCodes.Status400BadRequest
                 ),
+                BadRequestException =>
+                (
+                    exception.Message,
+                    exception.GetType().Name,
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest
+                ),
                 NotFoundException =>
                 (
                     exception.Message,
