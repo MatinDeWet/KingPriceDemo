@@ -8,20 +8,34 @@
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupDetail">
         <DataAnnotationsValidator />
         <div class="form-group">
-            <label for="Name">Name</label>
-            <InputText class="form-control" @bind-Value="Model.Name" />
-            <ValidationMessage For="@(() => Model.Name)" />
+            <label>Role in Group</label>
+            <label class="form-control">@Model.GroupRightsText</label>
+            <br />
+            @if(Model.GroupRights == 7)
+            {
+                <label for="Name">Name</label>
+                <InputText class="form-control" @bind-Value="Model.Name" />
+                <ValidationMessage For="@(() => Model.Name)" />
+                <br />
+                <input type="submit" value="Update Group" class="btn btn-primary" />
+                <br />
+                <br />
 
-            <label for="InviteToken" hidden="@string.IsNullOrWhiteSpace(Model.InviteToken)">Invite Token</label>
-            <label class="form-control" hidden="@string.IsNullOrWhiteSpace(Model.InviteToken)" >@Model.InviteToken</label>
-            <ValidationMessage For="@(() => Model.InviteToken)" />
+                <label>Invite Token</label>
+                <label class="form-control">@Model.InviteToken</label>
+                <input type="button" value="Refresh Token" class="btn btn-secondary" @onclick="@(() => RefreshGroupInviteToken())" />
+            }
+            else
+            {
+                <label>Group Name</label>
+                <label class="form-control">@Model.Name</label>
+            }
 
-
-            <input type="submit" value="Update" class="btn btn-primary" />
         </div>
     </EditForm>
 </div>
-
+<br />
+<h2>Users</h2>
 <table class="table table-responsive">
     <thead>
         <tr>
@@ -54,9 +68,7 @@
     {
         if (firstRender)
         {
-            Model = await groupService.GetGroupById(Id);
-
-            await InvokeAsync(StateHasChanged);
+            await GetGroup();
         } 
     }
 }
@@ -66,6 +78,18 @@
     {
         await groupService.UpdateGroup(Model.Id, Model.Name);
 
+        await GetGroup();
+    }
+
+    private async Task RefreshGroupInviteToken()
+    {
+        await groupService.RefreshGroupInviteToken(Id);
+
+        await GetGroup();
+    }
+
+    private async Task GetGroup()
+    {
         Model = await groupService.GetGroupById(Id);
 
         await InvokeAsync(StateHasChanged);

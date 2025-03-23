@@ -11,6 +11,9 @@ namespace KingPriceDemo.WebClient.Models
         [Required(AllowEmptyStrings = true)]
         public string InviteToken { get; set; } = null!;
 
+        public int GroupRights { get; set; }
+        public string GroupRightsText { get; set; } = null!;
+
         public List<GroupDetailUserListModel> Users { get; set; } = new List<GroupDetailUserListModel>();
     }
 }

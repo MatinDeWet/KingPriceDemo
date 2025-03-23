@@ -17,6 +17,10 @@ namespace KingPriceDemo.Application.Features.GroupFeatures.Queries.GetGroupById
                     Id = g.Id,
                     Name = g.Name,
                     InviteToken = g.UserGroups.Any(ug => ug.UserId == identityInfo.GetIdentityId() && ug.Rights == GroupRightsEnum.Owner) ? g.InviteToken : string.Empty,
+                    GroupRights = g.UserGroups
+                        .Where(ug => ug.UserId == identityInfo.GetIdentityId())
+                        .Select(ug => ug.Rights)
+                        .FirstOrDefault(),
                     Users = g.UserGroups.Select(u => new GroupUsers
                     {
                         Id = u.User.Id,

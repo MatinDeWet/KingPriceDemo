@@ -11,6 +11,9 @@ namespace KingPriceDemo.Application.Features.GroupFeatures.Queries.GetGroupById
 
         public string InviteToken { get; set; } = null!;
 
+        public GroupRightsEnum GroupRights { get; set; }
+        public string GroupRightsText => GroupRights.GetDisplayName();
+
         public List<GroupUsers> Users { get; set; } = new List<GroupUsers>();
     }
 

@@ -41,9 +41,7 @@
     {
         if (firstRender)
         {
-            Model = await userService.GetLoggedInUser();
-
-            await InvokeAsync(StateHasChanged);
+            await GetUser();
         }
     }
 }
@@ -53,9 +51,7 @@
     {
         await userService.UpdateUser(Model);
 
-        Model = await userService.GetLoggedInUser();
-
-        await InvokeAsync(StateHasChanged);
+        await GetUser();
     }
 
     private async Task DeleteUser()
@@ -63,5 +59,12 @@
         await userService.DeleteUser();
 
         manager.NavigateTo("/auth/logout");
+    }
+
+    private async Task GetUser()
+    {
+        Model = await userService.GetLoggedInUser();
+
+        await InvokeAsync(StateHasChanged);
     }
 }

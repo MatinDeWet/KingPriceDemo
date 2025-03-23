@@ -1,9 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using KingPriceDemo.ApiClient;
 using KingPriceDemo.WebClient.Constants;
+using KingPriceDemo.WebClient.Models;
 using System.Net.Http.Headers;
 
-namespace KingPriceDemo.WebClient.Services.Common
+namespace KingPriceDemo.WebClient.Services.Base
 {
     public abstract class BaseHttpClientService
     {

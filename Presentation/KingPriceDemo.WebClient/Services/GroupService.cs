@@ -1,7 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using KingPriceDemo.ApiClient;
 using KingPriceDemo.WebClient.Models;
-using KingPriceDemo.WebClient.Services.Common;
+using KingPriceDemo.WebClient.Services.Base;
 using KingPriceDemo.WebClient.Services.Contracts;
 
 namespace KingPriceDemo.WebClient.Services
@@ -29,7 +29,9 @@ namespace KingPriceDemo.WebClient.Services
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    UserCount = x.UserCount
+                    UserCount = x.UserCount,
+                    GroupRights = x.GroupRights,
+                    GroupRightsText = x.GroupRightsText
                 })
                 .ToList();
         }
@@ -44,6 +46,8 @@ namespace KingPriceDemo.WebClient.Services
                 Id = response.Id,
                 Name = response.Name,
                 InviteToken = response.InviteToken,
+                GroupRights = response.GroupRights,
+                GroupRightsText = response.GroupRightsText,
                 Users = response.Users
                     .Select(x => new GroupDetailUserListModel
                     {

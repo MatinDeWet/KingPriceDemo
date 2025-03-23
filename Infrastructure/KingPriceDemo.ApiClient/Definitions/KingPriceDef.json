@@ -1027,6 +1027,13 @@
           "inviteToken": {
             "type": "string"
           },
+          "groupRights": {
+            "$ref": "#/components/schemas/GroupRightsEnum"
+          },
+          "groupRightsText": {
+            "type": "string",
+            "nullable": true
+          },
           "users": {
             "type": "array",
             "items": {
@@ -1194,6 +1201,13 @@
           "userCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "groupRights": {
+            "$ref": "#/components/schemas/GroupRightsEnum"
+          },
+          "groupRightsText": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

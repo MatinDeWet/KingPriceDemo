@@ -1,7 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using KingPriceDemo.ApiClient;
 using KingPriceDemo.WebClient.Models;
-using KingPriceDemo.WebClient.Services.Common;
+using KingPriceDemo.WebClient.Services.Base;
 using KingPriceDemo.WebClient.Services.Contracts;
 using System.Reflection;
 

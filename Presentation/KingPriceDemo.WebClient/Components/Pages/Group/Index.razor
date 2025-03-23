@@ -13,10 +13,12 @@
             <th>Group Id</th>
             <th>Group Name</th>
             <th>User Count</th>
+            <th>Role in Group</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var group in groupList)
+        @foreach (var group in Model)
         {
             <tr>
                 <td>
@@ -26,6 +28,15 @@
                 </td>
                 <td>@group.Name</td>
                 <td>@group.UserCount</td>
+                <td>@group.GroupRightsText</td>
+                <td>
+                    @if(group.GroupRights == 7)
+                    {
+                        <a href="#" @onclick="@(() => DeleteGroup(group.Id))">
+                            Delete
+                        </a>
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -33,7 +44,7 @@
 
 
 @code {
-    List<GroupListModel> groupList = new List<GroupListModel>();
+    List<GroupListModel> Model = new List<GroupListModel>();
 }
 
 @code{
@@ -41,9 +52,23 @@
     {
         if (firstRender)
         {
-            groupList = await groupService.GetGroupList();
-
-            await InvokeAsync(StateHasChanged);
+            await GetGroupList();
         }
+    }
+}
+
+@code{
+    private async Task DeleteGroup(int groupId)
+    {
+        await groupService.DeleteGroup(groupId);
+
+        await GetGroupList();
+    }
+
+    private async Task GetGroupList()
+    {
+        Model = await groupService.GetGroupList();
+
+        await InvokeAsync(StateHasChanged);
     }
 }
