@@ -1,0 +1,73 @@
+﻿@page "/group/{Id:int}"
+
+@inject IGroupService groupService
+
+<h3>Group Detail</h3>
+
+<div class="card-body">
+    <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupDetail">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <InputText class="form-control" @bind-Value="Model.Name" />
+            <ValidationMessage For="@(() => Model.Name)" />
+
+            <label for="InviteToken" hidden="@string.IsNullOrWhiteSpace(Model.InviteToken)">Invite Token</label>
+            <label class="form-control" hidden="@string.IsNullOrWhiteSpace(Model.InviteToken)" >@Model.InviteToken</label>
+            <ValidationMessage For="@(() => Model.InviteToken)" />
+
+
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Rights</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.RightsText</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}
+
+@code{
+    GroupDetailModel Model = new GroupDetailModel();
+}
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Model = await groupService.GetGroupById(Id);
+
+            await InvokeAsync(StateHasChanged);
+        } 
+    }
+}
+
+@code{
+    private async Task HandleValidSubmit()
+    {
+        await groupService.UpdateGroup(Model.Id, Model.Name);
+
+        Model = await groupService.GetGroupById(Id);
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

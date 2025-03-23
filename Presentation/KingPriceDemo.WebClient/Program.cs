@@ -29,6 +29,7 @@ builder.Services.AddScoped<AuthenticationStateProvider>(options =>
 );
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 
 builder.Services.AddBlazoredLocalStorage();

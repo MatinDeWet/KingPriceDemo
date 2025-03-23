@@ -1,0 +1,34 @@
+﻿@page "/group/join"
+
+@inject IGroupService groupService
+
+<h3>Join Group</h3>
+
+<div class="card-body">
+    <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupCreate">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="InviteToken">Invite Token</label>
+            <InputText class="form-control" @bind-Value="Model.InviteToken" />
+            <ValidationMessage For="@(() => Model.InviteToken)" />
+
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    JoinGroupModel Model { get; set; } = new JoinGroupModel();
+}
+
+@code {
+    private async Task HandleValidSubmit()
+    {
+        await groupService.JoinGroupWithToken(Model.InviteToken);
+
+        manager.NavigateTo($"/group");
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

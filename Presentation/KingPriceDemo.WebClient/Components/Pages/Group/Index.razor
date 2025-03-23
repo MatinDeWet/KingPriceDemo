@@ -1,0 +1,49 @@
+﻿@page "/group"
+
+@inject IGroupService groupService
+
+<h3>Group List</h3>
+
+<a class="btn btn-primary" href="/group/create"><span class="oi oi-plus" aria-hidden="true"></span> Create </a>
+<a class="btn btn-secondary" href="/group/join"><span class="oi oi-plus" aria-hidden="true"></span> Join With Code </a>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Group Id</th>
+            <th>Group Name</th>
+            <th>User Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in groupList)
+        {
+            <tr>
+                <td>
+                    <a href="/group/@group.Id">
+                        @group.Id
+                    </a>
+                </td>
+                <td>@group.Name</td>
+                <td>@group.UserCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    List<GroupListModel> groupList = new List<GroupListModel>();
+}
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            groupList = await groupService.GetGroupList();
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
