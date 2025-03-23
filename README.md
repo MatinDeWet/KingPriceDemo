@@ -8,7 +8,7 @@ showcasing simple administrative functionalities and basic CRUD operations. </p>
 <h3>Running the project</h3>
 To run this project you need to set the following startup projects:
 <ul>
-	<li>KingPriceDemo.WebAPI</li>
+	<li>docker-compose</li>
 	<li>KingPriceDemo.WebClient</li>
 </ul>
 
