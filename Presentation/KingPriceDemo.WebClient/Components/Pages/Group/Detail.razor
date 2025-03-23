@@ -20,7 +20,6 @@
                 <label for="Name">Name</label>
                 <InputText class="form-control" @bind-Value="Model.Name" />
                 <ValidationMessage For="@(() => Model.Name)" />
-                <br />
                 <input type="submit" value="Update Group" class="btn btn-primary" />
                 <br />
                 <br />
@@ -35,6 +34,14 @@
                 <label class="form-control">@Model.Name</label>
             }
 
+            @if (Model.GroupRights != 7)
+            {
+                <br />
+                <br />
+                <input type="button" value="Leave Group" class="btn btn-secondary" @onclick="@(() => LeaveGroup())" />
+                <br />
+                <br />
+            }
         </div>
     </EditForm>
 </div>
@@ -98,6 +105,17 @@
             message = response.Message;
 
         await GetGroup();
+    }
+
+    private async Task LeaveGroup()
+    {
+        var response = await groupService.LeaveGroup(Id);
+        if (response.Success)
+            manager.NavigateTo("/group");
+        else
+            message = response.Message;
+            
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task GetGroup()
