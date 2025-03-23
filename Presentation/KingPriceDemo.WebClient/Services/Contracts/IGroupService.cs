@@ -4,20 +4,20 @@ namespace KingPriceDemo.WebClient.Services.Contracts
 {
     public interface IGroupService
     {
-        Task<List<GroupListModel>> GetGroupList();
+        Task<Response<List<GroupListModel>>> GetGroupList();
 
-        Task<GroupDetailModel> GetGroupById(int id);
+        Task<Response<GroupDetailModel>> GetGroupById(int id);
 
-        Task<int> CreateGroup(string name);
+        Task<Response<int>> CreateGroup(string name);
 
-        Task UpdateGroup(int id, string name);
+        Task<Response<int>> UpdateGroup(int id, string name);
 
-        Task DeleteGroup(int id);
+        Task<Response<int>> DeleteGroup(int id);
 
-        Task RefreshGroupInviteToken(int id);
+        Task<Response<int>> RefreshGroupInviteToken(int id);
 
-        Task JoinGroupWithToken(string token);
+        Task<Response<int>> JoinGroupWithToken(string token);
 
-        Task LeaveGroup(int id);
+        Task<Response<int>> LeaveGroup(int id);
     }
 }

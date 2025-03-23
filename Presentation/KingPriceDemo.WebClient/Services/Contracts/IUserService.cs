@@ -4,10 +4,10 @@ namespace KingPriceDemo.WebClient.Services.Contracts
 {
     public interface IUserService
     {
-        Task<UserModel> GetLoggedInUser();
+        Task<Response<UserModel>> GetLoggedInUser();
 
-        Task UpdateUser(UserModel model);
+        Task<Response<int>> UpdateUser(UserModel model);
 
-        Task DeleteUser();
+        Task<Response<int>> DeleteUser();
     }
 }

@@ -4,6 +4,11 @@
 
 <h3>Group List</h3>
 
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <span class="text-danger">@message</span>
+}
+
 <a class="btn btn-primary" href="/group/create"><span class="oi oi-plus" aria-hidden="true"></span> Create </a>
 <a class="btn btn-secondary" href="/group/join"><span class="oi oi-plus" aria-hidden="true"></span> Join With Code </a>
 
@@ -45,6 +50,8 @@
 
 @code {
     List<GroupListModel> Model = new List<GroupListModel>();
+
+    string message = string.Empty;
 }
 
 @code{
@@ -60,14 +67,26 @@
 @code{
     private async Task DeleteGroup(int groupId)
     {
-        await groupService.DeleteGroup(groupId);
+        var response = await groupService.DeleteGroup(groupId);
 
-        await GetGroupList();
+        if (response.Success)
+            await GetGroupList();
+        else
+        {
+            message = response.Message;
+
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private async Task GetGroupList()
     {
-        Model = await groupService.GetGroupList();
+        var response = await groupService.GetGroupList();
+
+        if (response.Success)
+            Model = response.Data;
+        else
+            message = response.Message;
 
         await InvokeAsync(StateHasChanged);
     }

@@ -39,13 +39,18 @@
 @code {
     private async Task HandleValidSubmit()
     {
-        var response = await authService.AuthenticateAsync(Model);
-
-        if (response)
+        try
         {
-            manager.NavigateTo("/");
-        }
+            var response = await authService.AuthenticateAsync(Model);
 
-        message = "Invalid Credentials, Please Try Again";
+            if (response)
+                manager.NavigateTo("/");
+
+            message = "Invalid Credentials, Please Try Again";
+        }
+        catch (ApiException)
+        {
+            message = "Something Went wrong trying to log you in";
+        }
     }
 }

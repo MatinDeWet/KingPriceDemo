@@ -12,7 +12,7 @@ namespace KingPriceDemo.WebClient.Services
         {
         }
 
-        public async Task<List<GroupListModel>> GetGroupList()
+        public async Task<Response<List<GroupListModel>>> GetGroupList()
         {
             var request = new SearchGroupRequest
             {
@@ -21,62 +21,98 @@ namespace KingPriceDemo.WebClient.Services
                 PageSize = 100
             };
 
-            await SetToken();
-            var response = await _httpClient.ApiGroupSearchGroupAsync(request);
 
-            return response.Data
-                .Select(x => new GroupListModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    UserCount = x.UserCount,
-                    GroupRights = x.GroupRights,
-                    GroupRightsText = x.GroupRightsText
-                })
-                .ToList();
-        }
+            var response = new Response<List<GroupListModel>>();
 
-        public async Task<GroupDetailModel> GetGroupById(int id)
-        {
-            await SetToken();
-            var response = await _httpClient.ApiGroupGetGroupByIdAsync(id);
-
-            return new GroupDetailModel
+            try
             {
-                Id = response.Id,
-                Name = response.Name,
-                InviteToken = response.InviteToken,
-                GroupRights = response.GroupRights,
-                GroupRightsText = response.GroupRightsText,
-                Users = response.Users
-                    .Select(x => new GroupDetailUserListModel
+                await SetToken();
+                var apiResponse = await _httpClient.ApiGroupSearchGroupAsync(request);
+
+                response.Data = apiResponse.Data
+                    .Select(x => new GroupListModel
                     {
                         Id = x.Id,
-                        Email = x.Email,
-                        Rights = x.Rights,
-                        RightsText = x.RightsText,
-                        FullName = x.FullName,
-                        Surname = x.Surname
+                        Name = x.Name,
+                        UserCount = x.UserCount,
+                        GroupRights = x.GroupRights,
+                        GroupRightsText = x.GroupRightsText
                     })
-                    .ToList()
-            };
+                    .ToList();
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<List<GroupListModel>>(exception);
+            }
+
+            return response;
         }
 
-        public async Task<int> CreateGroup(string name)
+        public async Task<Response<GroupDetailModel>> GetGroupById(int id)
+        {
+            var response = new Response<GroupDetailModel>();
+
+            try
+            {
+                await SetToken();
+                var apiReponse = await _httpClient.ApiGroupGetGroupByIdAsync(id);
+
+                response.Data = new GroupDetailModel
+                {
+                    Id = apiReponse.Id,
+                    Name = apiReponse.Name,
+                    InviteToken = apiReponse.InviteToken,
+                    GroupRights = apiReponse.GroupRights,
+                    GroupRightsText = apiReponse.GroupRightsText,
+                    Users = apiReponse.Users
+                        .Select(x => new GroupDetailUserListModel
+                        {
+                            Id = x.Id,
+                            Email = x.Email,
+                            Rights = x.Rights,
+                            RightsText = x.RightsText,
+                            FullName = x.FullName,
+                            Surname = x.Surname
+                        })
+                        .ToList()
+                };
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<GroupDetailModel>(exception);
+            }
+
+            return response;
+        }
+
+        public async Task<Response<int>> CreateGroup(string name)
         {
             var request = new CreateGroupRequest
             {
                 Name = name
             };
 
-            await SetToken();
+            var response = new Response<int>();
 
-            var response = await _httpClient.ApiGroupCreateGroupAsync(request);
+            try
+            {
+                await SetToken();
 
-            return response.Id;
+                var apiReponse = await _httpClient.ApiGroupCreateGroupAsync(request);
+
+                response.Data = apiReponse.Id;
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+
+
+            return response;
         }
 
-        public async Task UpdateGroup(int id, string name)
+        public async Task<Response<int>> UpdateGroup(int id, string name)
         {
             var request = new UpdateGroupRequest
             {
@@ -84,37 +120,87 @@ namespace KingPriceDemo.WebClient.Services
                 Name = name
             };
 
-            await SetToken();
+            var response = new Response<int>();
 
-            await _httpClient.ApiGroupUpdateGroupAsync(request);
-        }
-
-        public async Task DeleteGroup(int id)
-        {
-            await SetToken();
-            await _httpClient.ApiGroupDeleteGroupAsync(id);
-        }
-
-        public async Task RefreshGroupInviteToken(int id)
-        {
-            await SetToken();
-            await _httpClient.ApiGroupRefreshGroupInviteTokenAsync(id);
-        }
-
-        public async Task JoinGroupWithToken(string token)
-        {
-            var request = new JoinGroupWithTokenRequest
+            try
             {
-                Token = token
-            };
-            await SetToken();
-            await _httpClient.ApiGroupJoinGroupWithTokenAsync(request);
+                await SetToken();
+                await _httpClient.ApiGroupUpdateGroupAsync(request);
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
         }
 
-        public async Task LeaveGroup(int id)
+        public async Task<Response<int>> DeleteGroup(int id)
         {
-            await SetToken();
-            await _httpClient.ApiGroupLeaveGroupAsync(id);
+            var response = new Response<int>();
+
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiGroupDeleteGroupAsync(id);
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
+        }
+
+        public async Task<Response<int>> RefreshGroupInviteToken(int id)
+        {
+            var response = new Response<int>();
+
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiGroupRefreshGroupInviteTokenAsync(id);
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
+        }
+
+        public async Task<Response<int>> JoinGroupWithToken(string token)
+        {
+            var response = new Response<int>();
+
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiGroupJoinGroupWithTokenAsync(new JoinGroupWithTokenRequest { Token = token });
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
+        }
+
+        public async Task<Response<int>> LeaveGroup(int id)
+        {
+            var response = new Response<int>();
+
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiGroupLeaveGroupAsync(id);
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
         }
     }
 }

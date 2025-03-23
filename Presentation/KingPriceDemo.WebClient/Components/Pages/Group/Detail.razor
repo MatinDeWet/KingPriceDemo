@@ -4,6 +4,10 @@
 
 <h3>Group Detail</h3>
 
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <span class="text-danger">@message</span>
+}
 <div class="card-body">
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupDetail">
         <DataAnnotationsValidator />
@@ -61,6 +65,8 @@
 
 @code{
     GroupDetailModel Model = new GroupDetailModel();
+
+    string message = string.Empty;
 }
 
 @code{
@@ -76,21 +82,32 @@
 @code{
     private async Task HandleValidSubmit()
     {
-        await groupService.UpdateGroup(Model.Id, Model.Name);
+        var response = await groupService.UpdateGroup(Model.Id, Model.Name);
+
+        if (!response.Success)
+            message = response.Message;
 
         await GetGroup();
     }
 
     private async Task RefreshGroupInviteToken()
     {
-        await groupService.RefreshGroupInviteToken(Id);
+        var response = await groupService.RefreshGroupInviteToken(Id);
+
+        if (!response.Success)
+            message = response.Message;
 
         await GetGroup();
     }
 
     private async Task GetGroup()
     {
-        Model = await groupService.GetGroupById(Id);
+        var response = await groupService.GetGroupById(Id);
+
+        if (response.Success)
+            Model = response.Data;
+        else
+            message = response.Message;
 
         await InvokeAsync(StateHasChanged);
     }

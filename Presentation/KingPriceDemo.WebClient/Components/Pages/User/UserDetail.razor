@@ -3,6 +3,10 @@
 @inject IUserService userService
 <h3>UserDetail</h3>
 
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <span class="text-danger">@message</span>
+}
 <div class="card-body">
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="UserUpdatte">
         <DataAnnotationsValidator />
@@ -36,6 +40,10 @@
     UserModel Model { get; set; } = new UserModel();
 }
 
+@code {
+    string message = string.Empty;
+}
+
 @code{
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -49,21 +57,39 @@
 @code{
     private async Task HandleValidSubmit()
     {
-        await userService.UpdateUser(Model);
+        var response = await userService.UpdateUser(Model);
 
-        await GetUser();
+        if (response.Success)
+            await GetUser();
+        else
+        {
+            message = response.Message;
+            await InvokeAsync(StateHasChanged);
+        }
+
     }
 
     private async Task DeleteUser()
     {
-        await userService.DeleteUser();
+        var response = await userService.DeleteUser();
 
-        manager.NavigateTo("/auth/logout");
+        if (response.Success)
+            manager.NavigateTo("/auth/logout");
+        else
+        {
+            message = response.Message;
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private async Task GetUser()
     {
-        Model = await userService.GetLoggedInUser();
+        var response = await userService.GetLoggedInUser();
+
+        if (response.Success)
+            Model = response.Data;
+        else
+            message = response.Message;
 
         await InvokeAsync(StateHasChanged);
     }

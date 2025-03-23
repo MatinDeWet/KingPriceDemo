@@ -3,7 +3,6 @@ using KingPriceDemo.ApiClient;
 using KingPriceDemo.WebClient.Models;
 using KingPriceDemo.WebClient.Services.Base;
 using KingPriceDemo.WebClient.Services.Contracts;
-using System.Reflection;
 
 namespace KingPriceDemo.WebClient.Services
 {
@@ -16,29 +15,37 @@ namespace KingPriceDemo.WebClient.Services
             _authenticationService = authenticationService;
         }
 
-        public async Task<UserModel> GetLoggedInUser()
+        public async Task<Response<UserModel>> GetLoggedInUser()
         {
             var userId = await _authenticationService.GetIdentityId();
 
             if (userId == 0)
                 throw new UnauthorizedAccessException();
 
-            await SetToken();
+            var response = new Response<UserModel>();
 
-            var user = await _httpClient.ApiUserGetUserByIdAsync(userId);
-
-            var userModel = new UserModel
+            try
             {
-                FullName = user.FullName,
-                Surname = user.Surname,
-                Email = user.Email,
-                CellphoneNumber = user.CellphoneNumber
-            };
+                await SetToken();
+                var apiResponse = await _httpClient.ApiUserGetUserByIdAsync(userId);
 
-            return userModel;
+                response.Data = new UserModel
+                {
+                    FullName = apiResponse.FullName,
+                    Surname = apiResponse.Surname,
+                    Email = apiResponse.Email,
+                    CellphoneNumber = apiResponse.CellphoneNumber
+                };
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<UserModel>(exception);
+            }
+
+            return response;
         }
 
-        public async Task UpdateUser(UserModel model)
+        public async Task<Response<int>> UpdateUser(UserModel model)
         {
             var userId = await _authenticationService.GetIdentityId();
 
@@ -53,15 +60,36 @@ namespace KingPriceDemo.WebClient.Services
                 CellphoneNumber = model.CellphoneNumber
             };
 
-            await SetToken();
+            var response = new Response<int>();
 
-            await _httpClient.ApiUserUpdateUserAsync(user);
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiUserUpdateUserAsync(user);
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
         }
 
-        public async Task DeleteUser()
+        public async Task<Response<int>> DeleteUser()
         {
-            await SetToken();
-            await _httpClient.ApiUserDeleteUserAsync();
+            var response = new Response<int>();
+
+            try
+            {
+                await SetToken();
+                await _httpClient.ApiUserDeleteUserAsync();
+            }
+            catch (ApiException exception)
+            {
+                response = ConvertApiExceptions<int>(exception);
+            }
+
+            return response;
         }
     }
 }

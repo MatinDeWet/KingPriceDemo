@@ -4,6 +4,10 @@
 
 <h3>Create Group</h3>
 
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <span class="text-danger">@message</span>
+}
 <div class="card-body">
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupCreate">
         <DataAnnotationsValidator />
@@ -22,12 +26,19 @@
     CreateGroupModel Model { get; set; } = new CreateGroupModel();
 }
 
+@code{
+    string message = string.Empty;
+}
+
 @code {
     private async Task HandleValidSubmit()
     {
-        var groupId = await groupService.CreateGroup(Model.Name);
+        var response = await groupService.CreateGroup(Model.Name);
 
-        manager.NavigateTo($"/group/{groupId}");
+        if (response.Success)
+            manager.NavigateTo($"/group/{response.Data}");
+
+        message = response.Message;
 
         await InvokeAsync(StateHasChanged);
     }

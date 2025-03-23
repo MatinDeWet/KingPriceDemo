@@ -3,6 +3,10 @@
 <h3>Register</h3>
 
 <div class="card-body">
+    @if (!string.IsNullOrWhiteSpace(message))
+    {
+        <span class="text-danger">@message</span>
+    }
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="RegisterUser">
         <DataAnnotationsValidator />
         <div class="form-group">
@@ -28,6 +32,10 @@
     RegistrationModel Model { get; set; } = new RegistrationModel();
 }
 
+@code {
+    string message = string.Empty;
+}
+
 @code{
     private async Task HandleValidSubmit()
     {
@@ -38,7 +46,17 @@
                 ConfirmPassword = Model.ConfirmPassword
             };
 
-        await KingPriceApiClient.ApiAuthRegisterAsync(dto);
+        try
+        {
+            await KingPriceApiClient.ApiAuthRegisterAsync(dto);
+        }
+        catch (ApiException)
+        {
+            message = "Something went wrong trying to register you";
+            return;
+        }
+
+
 
         manager.NavigateTo("/auth/login");
     }

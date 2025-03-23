@@ -4,6 +4,10 @@
 
 <h3>Join Group</h3>
 
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <span class="text-danger">@message</span>
+}
 <div class="card-body">
     <EditForm Model="Model" OnValidSubmit="HandleValidSubmit" FormName="GroupCreate">
         <DataAnnotationsValidator />
@@ -23,11 +27,18 @@
 }
 
 @code {
+    string message = string.Empty;
+}
+
+@code {
     private async Task HandleValidSubmit()
     {
-        await groupService.JoinGroupWithToken(Model.InviteToken);
+        var response = await groupService.JoinGroupWithToken(Model.InviteToken);
 
-        manager.NavigateTo($"/group");
+        if (response.Success)
+            manager.NavigateTo($"/group");
+        else
+            message = response.Message;
 
         await InvokeAsync(StateHasChanged);
     }

@@ -7,6 +7,7 @@ namespace KingPriceDemo.WebClient.Services.Contracts
         Task<int> GetIdentityId();
 
         Task<bool> AuthenticateAsync(LoginModel loginModel);
+
         public Task Logout();
     }
 }
