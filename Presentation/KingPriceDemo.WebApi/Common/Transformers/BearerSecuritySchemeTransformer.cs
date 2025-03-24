@@ -9,6 +9,7 @@ namespace KingPriceDemo.WebApi.Common.Transformers
         public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
         {
             var authenticationSchemes = await authenticationSchemeProvider.GetAllSchemesAsync();
+
             if (authenticationSchemes.Any(authScheme => authScheme.Name == "Bearer"))
             {
                 var requirements = new Dictionary<string, OpenApiSecurityScheme>
@@ -26,6 +27,7 @@ namespace KingPriceDemo.WebApi.Common.Transformers
                 document.Components ??= new OpenApiComponents();
                 document.Components.SecuritySchemes = requirements;
             }
+
             document.Info = new()
             {
                 Title = configuration.GetValue<string>("ApiSpecification:Title"),
@@ -37,6 +39,8 @@ namespace KingPriceDemo.WebApi.Common.Transformers
                     Email = configuration.GetValue<string>("ApiSpecification:Contact:Email")
                 }
             };
+
+            document.Servers = configuration.GetSection("ApiSpecification:Servers").Get<List<OpenApiServer>>();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace KingPriceDemo.WebApi
         {
             if (!isLocked)
             {
-                var servers = configuration.GetSection("ScalarExplorer:Servers").Get<List<ScalarServer>>();
+                var servers = configuration.GetSection("ApiSpecification:Servers").Get<List<ScalarServer>>();
                 var title = configuration.GetValue<string>("ScalarExplorer:Title");
 
 

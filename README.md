@@ -12,6 +12,28 @@ To run this project you need to set the following startup projects:
 	<li>KingPriceDemo.WebClient</li>
 </ul>
 
+<h3>Project Endpoints</h3>
+<table>
+	<tr>
+		<th>Web Client</th>
+		<td><a href="https://localhost:7001/" target="_blank">https://localhost:7001/</a></td>
+	</tr>
+	<tr>
+		<th>Web API open api spec</th>
+		<td><a href="https://localhost:6001/openapi/v1.json" target="_blank">https://localhost:6001/openapi/v1.json</a></td>
+	</tr>
+	<tr>
+		<th>Web API scalar</th>
+		<td><a href="https://localhost:6001/scalar/v1" target="_blank">https://localhost:6001/scalar/v1</a></td>
+	</tr>
+	<tr>
+		<th>Sec</th>
+		<td><a href="http://localhost:4002/" target="_blank">http://localhost:4002/</a></td>
+	</tr>
+</table>
+
+
+
 <h2>Service Ports</h2>
 <table>
 	<tr>

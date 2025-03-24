@@ -27,7 +27,7 @@ namespace KingPriceDemo.WebApi.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             return Ok();
