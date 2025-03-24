@@ -1,16 +1,7 @@
 namespace KingPriceDemo.Domain.Common.Abstractions
 {
-    public interface IEntity<KeyType> : IEntity
+    public interface IEntity<KeyType>
     {
         public KeyType Id { get; set; }
-    }
-
-    public interface IEntity
-    {
-        public DateTimeOffset DateTimeCreated { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTimeOffset? DateTimeDeleted { get; set; }
     }
 }
