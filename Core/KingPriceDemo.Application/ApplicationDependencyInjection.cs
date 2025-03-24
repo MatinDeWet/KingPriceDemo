@@ -1,6 +1,8 @@
 using KingPriceDemo.Application.Common.Behaviors;
+using KingPriceDemo.Application.Common.CQRS.Publishers;
 using KingPriceDemo.Application.Common.Exceptions.Handler;
 using KingPriceDemo.Application.Common.Security;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,8 @@ namespace KingPriceDemo.Application
                 config.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 config.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
+
+            services.AddSingleton<INotificationPublisher, PriorityNotificationPublisher>();
 
             return services;
         }

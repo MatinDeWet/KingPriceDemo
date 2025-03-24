@@ -50,7 +50,7 @@
         {
             await KingPriceApiClient.ApiAuthRegisterAsync(dto);
         }
-        catch (ApiException exception)
+        catch (ApiException)
         {
             message = "Something went wrong trying to register you";
             return;
